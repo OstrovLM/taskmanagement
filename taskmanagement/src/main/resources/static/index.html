@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        button {
+            width: 150px;
+            height: 40px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Цвета для различных методов запроса */
+        .get {
+            background-color: blue;
+            color: white;
+        }
+
+        .post {
+            background-color: green;
+            color: white;
+        }
+
+        .put {
+            background-color: yellow;
+            color: black;
+        }
+
+        .delete {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<h1>Task Manager</h1>
+
+<button class="get" onclick="getAllTasks()">Get All Tasks</button>
+<button class="get" onclick="getTaskById()">Get Task By ID</button>
+<button class="post" onclick="redirectToNewTaskPage()">Add New Task</button>
+<button class="put" onclick="redirectToUpdateTaskPage()">Update Task By ID</button>
+<button class="delete" onclick="deleteTaskById()">Delete Task By ID</button>
+
+<div id="output"></div>
+
+<script>
+
+        function getAllTasks() {
+        fetch('/tasks')
+            .then(response => response.json())
+            .then(data => {
+                // Redirect to the page with beautiful task list
+                window.location.href = '/tasklist.html';
+            });
+    }
+
+
+function getTaskById() {
+        const id = prompt('Enter Task ID:');
+        fetch(`/tasks/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('output').innerHTML = JSON.stringify(data);
+            });
+    }
+
+    function redirectToNewTaskPage() {
+        window.location.href = '/newTask.html';
+    }
+
+    function redirectToUpdateTaskPage() {
+        window.location.href = `/updateTask.html`;
+    }
+
+    function deleteTaskById() {
+        const id = prompt('Enter Task ID:');
+        fetch(`/tasks/${id}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Task deleted successfully');
+                } else {
+                    alert('Failed to delete task');
+                }
+            });
+    }
+</script>
+</body>
+</html>

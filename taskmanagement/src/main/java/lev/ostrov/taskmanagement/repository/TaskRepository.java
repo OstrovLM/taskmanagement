@@ -1,0 +1,9 @@
+package lev.ostrov.taskmanagement.repository;
+
+import lev.ostrov.taskmanagement.model.Task;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TaskRepository extends JpaRepository<Task, Long> {
+}
